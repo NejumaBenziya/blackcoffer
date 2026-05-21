@@ -11,11 +11,13 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://your-vercel-app.vercel.app",
+      "https://blackcoffer-rosy.vercel.app",
     ],
+    methods: ["GET", "POST"],
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
@@ -28,6 +30,8 @@ app.get("/", (req, res) => {
   res.send("API Running");
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
