@@ -20,6 +20,7 @@ const Dashboard = () => {
         const response = await API.get("/data");
 
         setData(response.data);
+        console.log(data);
 
       } catch (error) {
         console.log(error);

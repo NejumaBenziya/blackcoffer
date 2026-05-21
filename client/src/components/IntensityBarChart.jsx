@@ -11,32 +11,36 @@ import {
 const IntensityBarChart = ({ data }) => {
 
   // Group data by region
-  const chartData = data.reduce((acc, item) => {
+  const chartData = data
+  .filter(
+    (item) =>
+      item.region &&
+      item.intensity &&
+      !isNaN(item.intensity)
+  )
+  .reduce((acc, item) => {
 
-    // Skip empty regions
-    if (!item.region || !item.intensity) return acc;
-
-    // Check if region already exists
-    const existingRegion = acc.find(
-      (region) => region.region === item.region
+    const existing = acc.find(
+      (r) => r.region === item.region
     );
 
-    if (existingRegion) {
+    if (existing) {
 
-      existingRegion.intensity += item.intensity;
+      existing.intensity += Number(item.intensity);
 
     } else {
 
       acc.push({
         region: item.region,
-        intensity: item.intensity,
+        intensity: Number(item.intensity),
       });
 
     }
 
     return acc;
 
-  }, []);
+  }, [])
+  .slice(0, 10);
 
   return (
     <div className="bg-white p-5 rounded-xl shadow h-96">
